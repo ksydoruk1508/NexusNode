@@ -98,7 +98,8 @@ EOF
     echo -e "${BLUE}Перезагружаем системные службы...${NC}"
     sudo systemctl daemon-reload
     sudo systemctl enable nexus
-    echo -e "${GREEN}Нода Nexus успешно установлена! Запустите ее вручную после проверки.${NC}"
+    sudo systemctl start nexus
+    echo -e "${GREEN}Нода Nexus успешно установлена и запущена!${NC}"
 }
 
 function restart_node {
@@ -108,7 +109,7 @@ function restart_node {
 
 function view_logs {
     echo -e "${YELLOW}Просмотр логов (выход из логов CTRL+C)...${NC}"
-    sudo journalctl -u nexus -f --no-hostname -o cat
+    sudo journalctl -u nexus -n 100 -f --no-hostname -o cat
 }
 
 function remove_node {

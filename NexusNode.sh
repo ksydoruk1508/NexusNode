@@ -72,6 +72,10 @@ function install_node {
     echo -e "${BLUE}Копируем бинарный файл в директорию...${NC}"
     cp target/release/prover ~/.nexus/network-api/clients/cli/prover
 
+    echo -e "${YELLOW}Введите ваш Prover ID:${NC}"
+    read PROVER_ID
+    echo "$PROVER_ID" > ~/.nexus/prover-id
+
     echo -e "${BLUE}Создаем сервис Nexus...${NC}"
     sudo tee /etc/systemd/system/nexus.service > /dev/null <<EOF
 [Unit]
@@ -94,9 +98,7 @@ EOF
     echo -e "${BLUE}Перезагружаем системные службы...${NC}"
     sudo systemctl daemon-reload
     sudo systemctl enable nexus
-    sudo systemctl start nexus
-
-    echo -e "${GREEN}Нода Nexus успешно установлена и запущена!${NC}"
+    echo -e "${GREEN}Нода Nexus успешно установлена! Запустите ее вручную после проверки.${NC}"
 }
 
 function restart_node {

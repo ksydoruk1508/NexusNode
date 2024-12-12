@@ -102,6 +102,29 @@ EOF
     echo -e "${GREEN}Нода Nexus успешно установлена и запущена!${NC}"
 }
 
+function update_node {
+    echo -e "${BLUE}Обновляем ноду Nexus...${NC}"
+    systemctl stop nexus
+
+    cd $HOME/.nexus/network-api
+
+    git fetch
+
+    git -c advice.detachedHead=false checkout $(git rev-list --tags --max-count=1)
+
+    cd $HOME/.nexus/network-api/clients/cli
+
+    cargo build --release --bin prover
+
+    rm -rf $HOME/.nexus/network-api/clients/cli/prover
+
+    cp $HOME/.nexus/network-api/clients/cli/target/release/prover $HOME/.nexus/network-api/clients/cli/prover
+
+    systemctl start nexus
+
+    echo -e "${GREEN}Нода Nexus успешно обновлена!${NC}"
+}
+
 function restart_node {
     echo -e "${BLUE}Перезапускаем сервис Nexus...${NC}"
     sudo systemctl restart nexus
@@ -129,19 +152,20 @@ function main_menu {
     while true; do
         echo -e "${YELLOW}Выберите действие:${NC}"
         echo -e "${CYAN}1. Установка ноды${NC}"
-        echo -e "${CYAN}2. Рестарт ноды${NC}"
-        echo -e "${CYAN}3. Просмотр логов${NC}"
-        echo -e "${CYAN}4. Удаление ноды${NC}"
-        echo -e "${CYAN}5. Перейти к другим нодам${NC}"
-        echo -e "${CYAN}6. Выход${NC}"
+        echo -e "${CYAN}2. Обновление ноды${NC}"
+        echo -e "${CYAN}3. Рестарт ноды${NC}"
+        echo -e "${CYAN}4. Просмотр логов${NC}"
+        echo -e "${CYAN}5. Удаление ноды${NC}"
+        echo -e "${CYAN}6. Перейти к другим нодам${NC}"
+        echo -e "${CYAN}7. Выход${NC}"
 
         echo -e "${YELLOW}Введите номер действия:${NC} "
         read choice
         case $choice in
             1) install_node ;;
-            2) restart_node ;;
-            3) view_logs ;;
-            4) remove_node ;;
+            2) update_node ;;
+            3) restart_node ;;
+            4) view_logs ;;
             5) wget -q -O Ultimative_Node_Installer.sh https://raw.githubusercontent.com/ksydoruk1508/Ultimative_Node_Installer/main/Ultimative_Node_Installer.sh && sudo chmod +x Ultimative_Node_Installer.sh && ./Ultimative_Node_Installer.sh ;;
             6) break ;;
             *) echo -e "${RED}Неверный выбор, попробуйте снова.${NC}" ;;

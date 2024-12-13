@@ -166,8 +166,9 @@ function main_menu {
             2) update_node ;;
             3) restart_node ;;
             4) view_logs ;;
-            5) wget -q -O Ultimative_Node_Installer.sh https://raw.githubusercontent.com/ksydoruk1508/Ultimative_Node_Installer/main/Ultimative_Node_Installer.sh && sudo chmod +x Ultimative_Node_Installer.sh && ./Ultimative_Node_Installer.sh ;;
-            6) break ;;
+            5) remove_node ;;
+            6) wget -q -O Ultimative_Node_Installer.sh https://raw.githubusercontent.com/ksydoruk1508/Ultimative_Node_Installer/main/Ultimative_Node_Installer.sh && sudo chmod +x Ultimative_Node_Installer.sh && ./Ultimative_Node_Installer.sh ;;
+            7) break ;;
             *) echo -e "${RED}Неверный выбор, попробуйте снова.${NC}" ;;
         esac
     done
